@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,7 +21,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     private bool afadRequired = false;
 
-    [SerializeField] private int sendAmount = 1; 
+    private bool isFireActive = false;
+
+    [SerializeField] private int sendAmount = 1;
+
+    [SerializeField] private int waitingTimeForDeathIncrease;
     void Start()
     {
         switch (buildingDamageType)
@@ -43,6 +48,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             afadRequired = true;
         }
+        isFireActive = false;
     }
 
 
@@ -77,5 +83,13 @@ public class Building : MonoBehaviour, IPointerClickHandler
     public void ClickedOnExit()
     {
         canvasOfBuilding.SetActive(false);
+    }
+
+    IEnumerator GameplayLoop()
+    {
+        while (true)
+        {
+
+        }
     }
 }
