@@ -8,7 +8,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private int howManyPeopleInThisBuilding;
 
-    [SerializeField] private int deadPeopleCount;
+    public int deadPeopleCount;
 
     [SerializeField] private int injuredCount;
     private enum DamageType { NoDamage, Low, Medium, High }
@@ -57,10 +57,40 @@ public class Building : MonoBehaviour, IPointerClickHandler
     private int rescueTime=1;
 
     [SerializeField] private Image progressBar;
+    [SerializeField] private Image progressBarForAmbulance;
 
     [SerializeField] private int rescueTimeBasedOnDif;
 
+    [SerializeField] private GameObject textAmbulance;
+    [SerializeField] private GameObject ambulanceBGProgress;
+
+    [SerializeField] private Image[] icons = new Image[6];
+    //0 AFAD
+    //1 NGO
+    //2 Ambulance
+    //3 Funeral
+    //4 Crane
+    //5 Fire Fighter
+
+    [SerializeField] Sprite[] spritesForIcons = new Sprite[6];
+
+    private int lockForFuneralSystem;
+
+    private int lockForAmbulanceProgress;
     private bool progressBarStarted;
+
+    [SerializeField] private Image progressBarForFuneralVehicle;
+
+    [SerializeField] private GameObject backgroundFuneralVehicleBar;
+    [SerializeField] private GameObject backgroundFuneralText;
+
+    [SerializeField] private Image progressBarForCrane;
+
+    [SerializeField] private GameObject backgroundForCrane;
+    [SerializeField] private GameObject backgroundForCraneText;
+
+    private int lockForCraneGameplay = 0;
+
     void Start()
     {
         switch (buildingDamageType)
@@ -71,6 +101,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
             case DamageType.Low:
                 deadPeopleCount = Random.Range(0, 10);
                 rescueTimeBasedOnDif = Random.Range(30,50);
+
+                var isThereFireRandomNum = Random.Range(0, 20);
+                if (isThereFireRandomNum == 5)
+                {
+                    isFireActive = true;
+                }
                 break;
             case DamageType.Medium:
                 deadPeopleCount = Random.Range(10, 30);
@@ -129,6 +165,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
             progressBarStarted = true;
             RescueSpeed(sendAmount);
             UpdateUI();
+            icons[0].enabled = true;
+            if (icons[0].sprite == null)
+            {
+                icons[0].sprite = spritesForIcons[0];
+            }
         }
         else
         {
@@ -143,6 +184,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
             progressBarStarted = true;
             RescueSpeed(sendAmount);
             UpdateUI();
+            icons[1].enabled = true;
+            if (icons[1].sprite == null)
+            {
+                icons[1].sprite = spritesForIcons[1];
+            }
         }
         else
         {
@@ -155,6 +201,19 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             howManyAmbulanceInThere += sendAmount;
             UpdateUI();
+            icons[2].enabled = true;
+            if (icons[2].sprite == null)
+            {
+                icons[2].sprite = spritesForIcons[2];
+            }
+
+            lockForAmbulanceProgress++;
+            if (lockForAmbulanceProgress == 1)
+            {
+                StartCoroutine(AmbulanceGameplayTimer());
+                ambulanceBGProgress.SetActive(true);
+                textAmbulance.SetActive(true);
+            }
         }
         else
         {
@@ -167,6 +226,19 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             howManyFuneralVehicleInThere += sendAmount;
             UpdateUI();
+            icons[3].enabled = true;
+            if (icons[3].sprite == null)
+            {
+                icons[3].sprite = spritesForIcons[3];
+            }
+            lockForFuneralSystem++;
+
+            if (lockForFuneralSystem == 1)
+            {
+                StartCoroutine(FuneralVehicleGameplay());
+                backgroundFuneralVehicleBar.SetActive(true);
+                backgroundFuneralText.SetActive(true);
+            }
         }
         else
         {
@@ -179,6 +251,16 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             howManyCraneInThere += sendAmount;
             UpdateUI();
+            icons[4].enabled = true;
+            lockForCraneGameplay++;
+            if (lockForCraneGameplay == 1)
+            {
+                StartCoroutine(CraneGameplay());
+            }
+            if (icons[4].sprite == null)
+            {
+                icons[4].sprite = spritesForIcons[4];
+            }
         }
         else
         {
@@ -191,6 +273,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             howManyFireFighterInThere += sendAmount;
             UpdateUI();
+            icons[5].enabled = true;
+            if (icons[5].sprite == null)
+            {
+                icons[5].sprite = spritesForIcons[5];
+            }
         }
         else
         {
@@ -232,9 +319,23 @@ public class Building : MonoBehaviour, IPointerClickHandler
                         {
                             injuredCount++;
                         }
+
+                        if (injuredCount>0)
+                        {
+                            int injuredDeadOrNot = Random.Range(0, 10);
+                            if (injuredDeadOrNot == 5)
+                            {
+                                injuredCount--;
+                                deadPeopleCount++;
+                            }
+                            else
+                            {
+                                injuredCount++;
+                            }
+                        }
                         break;
                     case DamageType.Medium:
-                        int deadOrInjuryRandomSecond = Random.Range(0, 8);
+                        int deadOrInjuryRandomSecond = Random.Range(0, 10);
                         howManyPeopleInThisBuilding--;
                         if (deadOrInjuryRandomSecond == 5)
                         {
@@ -244,6 +345,22 @@ public class Building : MonoBehaviour, IPointerClickHandler
                         {
                             injuredCount++;
                         }
+
+
+                        if (injuredCount > 0)
+                        {
+                            int injuredDeadOrNotSecond = Random.Range(0, 7);
+                            if (injuredDeadOrNotSecond == 3)
+                            {
+                                injuredCount--;
+                                deadPeopleCount++;
+                            }
+                            else
+                            {
+                                injuredCount++;
+                            }
+                        }
+
                         break;
                     case DamageType.High:
                         int deadOrInjuryRandomThird = Random.Range(0, 3);
@@ -255,6 +372,20 @@ public class Building : MonoBehaviour, IPointerClickHandler
                         else
                         {
                             injuredCount++;
+                        }
+
+                        if (injuredCount > 0)
+                        {
+                            int injuredDeadOrNotThird = Random.Range(0, 4);
+                            if (injuredDeadOrNotThird == 2)
+                            {
+                                injuredCount--;
+                                deadPeopleCount++;
+                            }
+                            else
+                            {
+                                injuredCount++;
+                            }
                         }
                         break;
                 }
@@ -340,5 +471,108 @@ public class Building : MonoBehaviour, IPointerClickHandler
     private void RescueSpeed(int amount)
     {
         rescueTime += amount;
+    }
+
+    IEnumerator AmbulanceGameplayTimer()
+    {
+        while (true)
+        {
+            var timer = 0f;
+
+            while (timer <= rescueTimeBasedOnDif / howManyAmbulanceInThere)
+            {
+                timer += Time.deltaTime;
+
+                progressBarForAmbulance.fillAmount = timer / (rescueTimeBasedOnDif / howManyAmbulanceInThere);
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            yield return new WaitForSeconds(1f);
+            if (howManyAmbulanceInThere > 0)
+            {
+                if (injuredCount >= howManyAmbulanceInThere)
+                {
+                    injuredCount -= howManyAmbulanceInThere;
+                }
+                
+                if (injuredCount < howManyAmbulanceInThere)
+                {
+                    injuredCount = 0;
+                }
+               
+            }
+            progressBarForAmbulance.fillAmount = 0;
+            UpdateUI();
+        }
+    }
+
+    IEnumerator FuneralVehicleGameplay()
+    {
+
+        while (true)
+        {
+            var timer = 0f;
+
+            while (timer <= rescueTimeBasedOnDif / howManyFuneralVehicleInThere)
+            {
+                timer += Time.deltaTime;
+
+                progressBarForFuneralVehicle.fillAmount = timer / (rescueTimeBasedOnDif / howManyFuneralVehicleInThere);
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            yield return new WaitForSeconds(1f);
+
+            if (howManyFuneralVehicleInThere > 0)
+            {
+                if (deadPeopleCount >= howManyFuneralVehicleInThere)
+                {
+                    deadPeopleCount -= howManyFuneralVehicleInThere;
+                }
+
+                if (deadPeopleCount < howManyFuneralVehicleInThere)
+                {
+                    deadPeopleCount = 0;
+                }
+            }
+            progressBarForFuneralVehicle.fillAmount = 0;
+            UpdateUI();
+        }
+    }
+
+    IEnumerator CraneGameplay()
+    {
+
+        while (true)
+        {
+            var timer = 0f;
+
+            while (timer <= rescueTimeBasedOnDif / howManyCraneInThere)
+            {
+                timer += Time.deltaTime;
+
+                progressBarForCrane.fillAmount = timer / (rescueTimeBasedOnDif / howManyCraneInThere);
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            progressBarForFuneralVehicle.fillAmount = 0;
+            UpdateUI();
+        }
+    }
+
+    IEnumerator ThereIsFireTimer()
+    {
+        while (isFireActive)
+        {
+            yield return new WaitForSeconds(10f);
+            if (howManyPeopleInThisBuilding > 0)
+            {
+                howManyPeopleInThisBuilding--;
+                deadPeopleCount++;
+            }
+        }
     }
 }
