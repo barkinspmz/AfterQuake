@@ -58,6 +58,8 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] private Image progressBar;
 
+    [SerializeField] private int rescueTimeBasedOnDif;
+
     private bool progressBarStarted;
     void Start()
     {
@@ -68,12 +70,15 @@ public class Building : MonoBehaviour, IPointerClickHandler
                 break;
             case DamageType.Low:
                 deadPeopleCount = Random.Range(0, 10);
+                rescueTimeBasedOnDif = Random.Range(30,50);
                 break;
             case DamageType.Medium:
                 deadPeopleCount = Random.Range(10, 30);
+                rescueTimeBasedOnDif = Random.Range(50, 80);
                 break;
             case DamageType.High:
-                deadPeopleCount = Random.Range(20, 50);
+                deadPeopleCount = Random.Range(30, 50);
+                rescueTimeBasedOnDif = Random.Range(80, 120);
                 break;
         }
 
@@ -85,6 +90,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         progressBarStarted = false;
         UpdateUI();
         StartCoroutine(GameplayLoop());
+
     }
 
 
@@ -205,11 +211,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
             {
                 var timer = 0f;
 
-                while (timer <= 30 / rescueTime)
+                while (timer <= rescueTimeBasedOnDif / rescueTime)
                 {
                     timer += Time.deltaTime;
 
-                    progressBar.fillAmount = timer / (30 / rescueTime);
+                    progressBar.fillAmount = timer / (rescueTimeBasedOnDif / rescueTime);
 
                     yield return new WaitForEndOfFrame();
                 }
