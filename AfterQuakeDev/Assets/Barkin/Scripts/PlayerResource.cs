@@ -10,18 +10,10 @@ public class PlayerResource : MonoBehaviour
     public int craneAmount;
     public int ngoAmount; 
     public int funeralVehicleAmount;
-
+    public int fireFighterAmount;
+    
     private void Awake()
     {
         Instance = this;
-    }
-    void Start()
-    {
-        ambulanceAmount = 100;
-        afadVolunteersAmount = 100;
-        militaryAmount = 100;
-        craneAmount = 100;
-        ngoAmount = 100;
-        funeralVehicleAmount = 100;
     }
 }
