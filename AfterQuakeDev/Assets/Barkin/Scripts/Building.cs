@@ -91,6 +91,10 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     private int lockForCraneGameplay = 0;
 
+    [SerializeField] private GameObject fireParticle;
+
+    private int lockForFireFighterGameplay = 0;
+
     void Start()
     {
         switch (buildingDamageType)
@@ -106,15 +110,28 @@ public class Building : MonoBehaviour, IPointerClickHandler
                 if (isThereFireRandomNum == 5)
                 {
                     isFireActive = true;
+                    StartCoroutine(ThereIsFireTimer());
                 }
                 break;
             case DamageType.Medium:
                 deadPeopleCount = Random.Range(10, 30);
                 rescueTimeBasedOnDif = Random.Range(50, 80);
+                var isThereFireRandomNumSec = Random.Range(0, 12);
+                if (isThereFireRandomNumSec == 5)
+                {
+                    isFireActive = true;
+                    StartCoroutine(ThereIsFireTimer());
+                }
                 break;
             case DamageType.High:
                 deadPeopleCount = Random.Range(30, 50);
                 rescueTimeBasedOnDif = Random.Range(80, 120);
+                var isThereFireRandomNumThird = Random.Range(0, 8);
+                if (isThereFireRandomNumThird == 5)
+                {
+                    isFireActive = true;
+                    StartCoroutine(ThereIsFireTimer());
+                }
                 break;
         }
 
@@ -277,6 +294,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
             if (icons[5].sprite == null)
             {
                 icons[5].sprite = spritesForIcons[5];
+            }
+
+            lockForFireFighterGameplay++;
+            if (lockForFireFighterGameplay == 1)
+            {
+                StartCoroutine (FireFighterGameplay());
             }
         }
         else
@@ -544,7 +567,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     IEnumerator CraneGameplay()
     {
-
         while (true)
         {
             var timer = 0f;
@@ -565,6 +587,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     IEnumerator ThereIsFireTimer()
     {
+        fireParticle.SetActive(true);
         while (isFireActive)
         {
             yield return new WaitForSeconds(10f);
@@ -574,5 +597,20 @@ public class Building : MonoBehaviour, IPointerClickHandler
                 deadPeopleCount++;
             }
         }
+    }
+    
+    IEnumerator FireFighterGameplay()
+    {
+        var timer = 0f;
+
+        while (timer <= 120 / howManyFireFighterInThere)
+        {
+            timer += Time.deltaTime;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        isFireActive = false;
+        fireParticle.SetActive(false);
     }
 }
