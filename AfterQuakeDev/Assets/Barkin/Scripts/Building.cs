@@ -139,7 +139,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             ngoRequired = false;
         }
-        isFireActive = false;
         progressBarStarted = false;
         UpdateUI();
         StartCoroutine(GameplayLoop());
@@ -178,6 +177,8 @@ public class Building : MonoBehaviour, IPointerClickHandler
         if (PlayerResource.Instance.afadVolunteersAmount >= sendAmount && howManyPeopleInThisBuilding > 0)
         {
             howManyAfadInThere += sendAmount;
+            PlayerResource.Instance.UpdateUI();
+            PlayerResource.Instance.afadVolunteersAmount -= sendAmount;
             clickedSendAfad = true;
             progressBarStarted = true;
             RescueSpeed(sendAmount);
@@ -198,9 +199,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
         if (PlayerResource.Instance.ngoAmount >= sendAmount && howManyPeopleInThisBuilding > 0)
         {
             howManyNGOInThere += sendAmount;
+            PlayerResource.Instance.ngoAmount -= sendAmount;
             progressBarStarted = true;
             RescueSpeed(sendAmount);
             UpdateUI();
+            PlayerResource.Instance.UpdateUI();
             icons[1].enabled = true;
             if (icons[1].sprite == null)
             {
@@ -217,7 +220,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
         if (PlayerResource.Instance.ambulanceAmount >= sendAmount)
         {
             howManyAmbulanceInThere += sendAmount;
+            PlayerResource.Instance.ambulanceAmount -= sendAmount;
             UpdateUI();
+            PlayerResource.Instance.UpdateUI();
             icons[2].enabled = true;
             if (icons[2].sprite == null)
             {
@@ -242,7 +247,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
         if (PlayerResource.Instance.funeralVehicleAmount >= sendAmount)
         {
             howManyFuneralVehicleInThere += sendAmount;
+            PlayerResource.Instance.funeralVehicleAmount -= sendAmount;
             UpdateUI();
+            PlayerResource.Instance.UpdateUI();
             icons[3].enabled = true;
             if (icons[3].sprite == null)
             {
@@ -267,12 +274,16 @@ public class Building : MonoBehaviour, IPointerClickHandler
         if (PlayerResource.Instance.craneAmount >= sendAmount)
         {
             howManyCraneInThere += sendAmount;
+            PlayerResource.Instance.craneAmount -= sendAmount;
             UpdateUI();
+            PlayerResource.Instance.UpdateUI();
             icons[4].enabled = true;
             lockForCraneGameplay++;
             if (lockForCraneGameplay == 1)
             {
                 StartCoroutine(CraneGameplay());
+                backgroundForCrane.SetActive(true);
+                backgroundForCraneText.SetActive(true);
             }
             if (icons[4].sprite == null)
             {
@@ -289,7 +300,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
         if (PlayerResource.Instance.fireFighterAmount >= sendAmount)
         {
             howManyFireFighterInThere += sendAmount;
+            PlayerResource.Instance.fireFighterAmount -= sendAmount;
             UpdateUI();
+            PlayerResource.Instance.UpdateUI();
             icons[5].enabled = true;
             if (icons[5].sprite == null)
             {
@@ -482,6 +495,11 @@ public class Building : MonoBehaviour, IPointerClickHandler
         {
             sendFuneralVehicle.SetActive(false);
         }
+
+        if (isFireActive)
+        {
+            sendFireFighter.SetActive(true);
+        }
     }
 
     IEnumerator InfoTextTimer(string textInfo)
@@ -580,7 +598,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
                 yield return new WaitForEndOfFrame();
             }
 
-            progressBarForFuneralVehicle.fillAmount = 0;
+            progressBarForCrane.fillAmount = 0;
             UpdateUI();
         }
     }
