@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class SecurityManager : MonoBehaviour
@@ -7,7 +8,10 @@ public class SecurityManager : MonoBehaviour
     public float securityLevel;
     [SerializeField] private Image progressBarOfSecurityManager;
 
+    [SerializeField] private TextMeshProUGUI amountText;
     public int sendAmount = 0;
+
+    public Animator animationTab;
     private void Awake()
     {
         Instance = this;
@@ -17,6 +21,7 @@ public class SecurityManager : MonoBehaviour
     {
         securityLevel = 100;
         StartCoroutine(SecurityLevelAdjuster());
+        UpdateUI();
     }
 
     private void Update()
@@ -25,7 +30,7 @@ public class SecurityManager : MonoBehaviour
     }
     IEnumerator SecurityLevelAdjuster()
     {
-        while (securityLevel > 0)
+        while (securityLevel > 1)
         {
             securityLevel--;
             yield return new WaitForSeconds(1f);
@@ -42,6 +47,7 @@ public class SecurityManager : MonoBehaviour
                 PlayerResource.Instance.militaryAmount -= sendAmount;
                 securityLevel += sendAmount;
             }
+            UpdateUI();
         }
         
     }
@@ -49,6 +55,7 @@ public class SecurityManager : MonoBehaviour
     public void AddAmount()
     {
         sendAmount++;
+        UpdateUI();
     }
     public void DecreaseAmount()
     {
@@ -56,5 +63,21 @@ public class SecurityManager : MonoBehaviour
         {
             sendAmount--;
         }
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        amountText.text = "Amount: " + sendAmount;
+    }
+
+    public void GoToSceneTab()
+    {
+        animationTab.SetTrigger("Go");
+    }
+
+    public void GoBack()
+    {
+        animationTab.SetTrigger("Back");
     }
 }

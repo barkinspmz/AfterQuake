@@ -183,6 +183,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
             progressBarStarted = true;
             RescueSpeed(sendAmount);
             UpdateUI();
+            PlayerResource.Instance.UpdateUI();
             icons[0].enabled = true;
             if (icons[0].sprite == null)
             {

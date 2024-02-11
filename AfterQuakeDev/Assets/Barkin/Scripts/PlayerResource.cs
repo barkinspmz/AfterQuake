@@ -27,6 +27,11 @@ public class PlayerResource : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        UpdateUI();
+    }
+
     public void UpdateUI()
     {
         AFADText.text = afadVolunteersAmount.ToString();
