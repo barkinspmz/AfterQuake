@@ -12,6 +12,8 @@ public class SecurityManager : MonoBehaviour
     public int sendAmount = 0;
 
     public Animator animationTab;
+    public AudioClip clickSound;
+    private AudioSource audioSource;
     private void Awake()
     {
         Instance = this;
@@ -19,6 +21,7 @@ public class SecurityManager : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         securityLevel = 100;
         StartCoroutine(SecurityLevelAdjuster());
         UpdateUI();
@@ -42,6 +45,7 @@ public class SecurityManager : MonoBehaviour
     {
         if (PlayerResource.Instance.militaryAmount > 0)
         {
+            audioSource.PlayOneShot(clickSound);
             if (PlayerResource.Instance.militaryAmount >= sendAmount)
             {
                 PlayerResource.Instance.militaryAmount -= sendAmount;
@@ -54,11 +58,13 @@ public class SecurityManager : MonoBehaviour
 
     public void AddAmount()
     {
+        audioSource.PlayOneShot(clickSound);
         sendAmount++;
         UpdateUI();
     }
     public void DecreaseAmount()
     {
+        audioSource.PlayOneShot(clickSound);
         if (sendAmount>0)
         {
             sendAmount--;
@@ -73,11 +79,13 @@ public class SecurityManager : MonoBehaviour
 
     public void GoToSceneTab()
     {
+        audioSource.PlayOneShot(clickSound);
         animationTab.SetTrigger("Go");
     }
 
     public void GoBack()
     {
+        audioSource.PlayOneShot(clickSound);
         animationTab.SetTrigger("Back");
     }
 }

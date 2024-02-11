@@ -95,8 +95,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     private int lockForFireFighterGameplay = 0;
 
+    private AudioSource audioSource;
+
+    public AudioClip clipAudio;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         switch (buildingDamageType)
         {
             case DamageType.NoDamage:
@@ -148,6 +152,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        audioSource.PlayOneShot(clipAudio);
         ClickedOnBuilding();
     }
 
@@ -159,6 +164,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void ClickedOnIncreaseButton()
     {
+        audioSource.PlayOneShot(clipAudio);
         sendAmount++;
         sendingAmountText.text = "Amount: " + sendAmount.ToString();
     }
@@ -167,6 +173,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (sendAmount>1)
         {
+            audioSource.PlayOneShot(clipAudio);
             sendAmount--;
             sendingAmountText.text = "Amount: " + sendAmount.ToString();
         }
@@ -176,6 +183,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (PlayerResource.Instance.afadVolunteersAmount >= sendAmount && howManyPeopleInThisBuilding > 0)
         {
+            audioSource.PlayOneShot(clipAudio);
             howManyAfadInThere += sendAmount;
             PlayerResource.Instance.UpdateUI();
             PlayerResource.Instance.afadVolunteersAmount -= sendAmount;
@@ -192,6 +200,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            audioSource.PlayOneShot(clipAudio);
             InfoTextTimer("You don't have enough AFAD volunteers!");
         }
     }
@@ -199,6 +208,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (PlayerResource.Instance.ngoAmount >= sendAmount && howManyPeopleInThisBuilding > 0)
         {
+            audioSource.PlayOneShot(clipAudio);
             howManyNGOInThere += sendAmount;
             PlayerResource.Instance.ngoAmount -= sendAmount;
             progressBarStarted = true;
@@ -213,6 +223,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            audioSource.PlayOneShot(clipAudio);
             InfoTextTimer("You don't have enough amount of NGO people!");
         }
     }
@@ -220,6 +231,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (PlayerResource.Instance.ambulanceAmount >= sendAmount)
         {
+            audioSource.PlayOneShot(clipAudio);
             howManyAmbulanceInThere += sendAmount;
             PlayerResource.Instance.ambulanceAmount -= sendAmount;
             UpdateUI();
@@ -240,6 +252,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            audioSource.PlayOneShot(clipAudio);
             InfoTextTimer("You don't have enough amount of ambulance!");
         }
     }
@@ -247,6 +260,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (PlayerResource.Instance.funeralVehicleAmount >= sendAmount)
         {
+            audioSource.PlayOneShot(clipAudio);
             howManyFuneralVehicleInThere += sendAmount;
             PlayerResource.Instance.funeralVehicleAmount -= sendAmount;
             UpdateUI();
@@ -267,6 +281,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            audioSource.PlayOneShot(clipAudio);
             InfoTextTimer("You don't have enough amount of funeral vehicle!");
         }
     }
@@ -274,6 +289,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (PlayerResource.Instance.craneAmount >= sendAmount)
         {
+            audioSource.PlayOneShot(clipAudio);
             howManyCraneInThere += sendAmount;
             PlayerResource.Instance.craneAmount -= sendAmount;
             UpdateUI();
@@ -293,6 +309,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            audioSource.PlayOneShot(clipAudio);
             InfoTextTimer("You don't have enough amount of crane!");
         }
     }
@@ -300,6 +317,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         if (PlayerResource.Instance.fireFighterAmount >= sendAmount)
         {
+            audioSource.PlayOneShot(clipAudio);
             howManyFireFighterInThere += sendAmount;
             PlayerResource.Instance.fireFighterAmount -= sendAmount;
             UpdateUI();
@@ -318,12 +336,14 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+            audioSource.PlayOneShot(clipAudio);
             InfoTextTimer("You don't have enough amount of fire fighter!");
         }
     }
 
     public void ClickedOnExit()
     {
+        audioSource.PlayOneShot(clipAudio);
         canvasOfBuilding.SetActive(false);
     }
 

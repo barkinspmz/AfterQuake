@@ -5988,6 +5988,7 @@ GameObject:
   - component: {fileID: 3513164265504682448}
   - component: {fileID: 4555558843084087208}
   - component: {fileID: 3707201211923613232}
+  - component: {fileID: -1572020002677078104}
   m_Layer: 0
   m_Name: Building04
   m_TagString: Building
@@ -6186,12 +6187,12 @@ MonoBehaviour:
   - {fileID: 5038617262934967470}
   - {fileID: 7934627568204175968}
   spritesForIcons:
-  - {fileID: 21300000, guid: a5415a2a93f5384409db871ffa958e4e, type: 3}
-  - {fileID: 0}
-  - {fileID: 1752749644169722647, guid: 7fc83f9330499f94893b1d31abee3da5, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4146268958699113401, guid: a2183644f321f13439053775a27105d6, type: 3}
+  - {fileID: -4274461111794404149, guid: 4fb884a37400d474b931731ec87e3bf6, type: 3}
+  - {fileID: -4506177242133656664, guid: c679379f95115c04ebc124fa3ed6e5cd, type: 3}
+  - {fileID: 6642191062535669953, guid: 0b17165f44708b64b9849d20c775b563, type: 3}
+  - {fileID: -6987018025543591514, guid: 2ead97dd698ccbd4b9015efa1024fed0, type: 3}
+  - {fileID: -7865362539245989862, guid: c3415d6ef85435a45b42fc5810e4709a, type: 3}
   progressBarForFuneralVehicle: {fileID: 8281877864965234129}
   backgroundFuneralVehicleBar: {fileID: 4853885214063546093}
   backgroundFuneralText: {fileID: 3276794863126364708}
@@ -6199,6 +6200,104 @@ MonoBehaviour:
   backgroundForCrane: {fileID: 4049436472098172208}
   backgroundForCraneText: {fileID: 2157502934771884680}
   fireParticle: {fileID: 1824802616900554967}
+  clipAudio: {fileID: 8300000, guid: eeeba6c9dc7032d45899c7c09bee59d6, type: 3}
+--- !u!82 &-1572020002677078104
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2681711277011432941}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2790121904217375851
 GameObject:
   m_ObjectHideFlags: 0
